@@ -7,11 +7,21 @@
     "ex1": "npx tsx src/ex1-memoize.test.ts",
     "ex2": "npx tsx src/ex2-rate-limit.test.ts"
   },
-  "keywords": ["redis", "caching", "memoization", "rate-limiter", "typescript", "exercise"],
+  "keywords": [
+    "redis",
+    "caching",
+    "memoization",
+    "rate-limiter",
+    "typescript",
+    "exercise"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^22.10.5",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "ioredis": "^5.10.1"
   }
 }

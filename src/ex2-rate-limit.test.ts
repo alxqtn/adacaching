@@ -6,7 +6,7 @@ import { createRateLimiter } from "./ex2-rate-limit.js";
 
 const MAX_REQUESTS = 5;
 const WINDOW_SEC = 10;
-const TEST_KEY = "user:alice";
+const TEST_KEY = "ratelimit:192.168.1.1";
 
 // Fonction d'aide pour attendre
 function sleep(ms: number): Promise<void> {
@@ -55,4 +55,4 @@ async function main() {
 }
 
 // Lance le test si ce fichier est exécuté directement
-main().catch(console.error);
+main().then(() => process.exit(0)).catch(console.error);

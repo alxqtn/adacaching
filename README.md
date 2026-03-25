@@ -1,6 +1,6 @@
-# Caching avec Redis - Exercices Progressifs
+# Caching et Redis
 
-Ce projet contient deux exercices pour apprendre le caching, de la mémorisation en mémoire simple au rate limiting avec Redis.
+Ce projet contient deux exercices autour du caching et de Redis
 
 ## 🚀 Installation
 
@@ -43,6 +43,12 @@ npm run ex1
 - La fonction `memoize` dans `src/ex1-memoize.ts`
 - Décommentez le code de test une fois implémenté
 
+### Précisions
+
+Le test utilise une fonction récursive (qui s'appelle elle-même) qui suit la [suite de Fibonnacci](https://fr.wikipedia.org/wiki/Suite_de_Fibonacci). Cette fonction est potentiellement très lente à calculer: plus le nombre est haut, plus ça prend de temps, et le temps d'éxécution est exponentiel.
+
+Si fibonnacci(45) est trop long sur votre ordinateur vous pouvez baisser la valeur, l'idée est simplement d'observer un gain de performance avec la mémoisation.
+
 ## Exercice 2 : Rate Limiting avec Redis (`src/ex2-rate-limit.ts`)
 
 ### 📚 Concepts
@@ -78,9 +84,8 @@ La ressource, souvent une route / un endpoint +
 
 ### Installation & Configuration Redis
 
-Vous avez deux options :
-
-#### Option 1 : Redis local
+<details>
+<summary>Option 1 : Redis local (Homebrew / Docker)</summary>
 
 **macOS :**
 
@@ -102,13 +107,16 @@ sudo service redis-server start
 docker run -d -p 6379:6379 redis
 ```
 
-Ensuite, installez le driver Redis (choisissez-en un) :
+Ensuite, installez le driver Redis :
 
 ```bash
 npm install ioredis
 ```
 
-#### Option 2 : Upstash Redis (cloud)
+</details>
+
+<details>
+<summary>Option 2 : Upstash Redis (cloud)</summary>
 
 1. Créez un compte gratuit sur [upstash.com](https://upstash.com)
 2. Créez une base de données Redis
@@ -119,9 +127,9 @@ npm install ioredis
 cp .env.example .env
 ```
 
-Et ajoutez vos credentials Upstash dans le fichier `.env` :
+Et ajoutez vos credentials Upstash :
 
-```bash
+```env
 UPSTASH_REDIS_REST_URL=https://xxx.upstash.io
 UPSTASH_REDIS_REST_TOKEN=your_token_here
 ```
@@ -131,6 +139,8 @@ Installez le SDK Upstash :
 ```bash
 npm install @upstash/redis
 ```
+
+</details>
 
 ### À vous de jouer
 
@@ -153,6 +163,10 @@ npm run ex2
 - La fonction `isAllowed`
 
 **Note :** La fonction `createRateLimiter` est déjà implémentée pour vous. C'est un exemple de fonction d'ordre supérieur, similaire à `memoize` de l'exercice 1 !
+
+## Bonus
+
+Memoisation / Lazy-loading asynchrone avec Redis: faire une fonction asyncMemoize qui peut recevoir une fonction asynchrone (retourne une promesse) et qui utilise Redis comme cache (utiliser SETEX pour expirer automatiquement)
 
 ## 🔗 Ressources
 

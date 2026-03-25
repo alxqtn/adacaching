@@ -4,12 +4,14 @@
 
 import { memoize } from "./ex1-memoize.js";
 
-// Fonction de fibonacci récursive (très lente sans mémorisation)
+const FIBONACCI_NUMBER = 45;
+
+// Fonction de Fibonacci naïve (très lente pour n=45)
 function fibonacci(n: number): number {
-  if (n <= 1) return n;
-  return fibonacci(n - 1) + fibonacci(n - 2);
+  return n <= 1 ? n : fibonacci(n - 1) + fibonacci(n - 2);
 }
 
+type AnyFunction = (...args: any[]) => any;
 // Compteur d'appels pour visualiser la différence
 let callCount = 0;
 
@@ -21,16 +23,18 @@ function countCalls<T extends AnyFunction>(fn: T): T {
   }) as T;
 }
 
-type AnyFunction = (...args: any[]) => any;
 
 // Test sans mémorisation
 console.log("=== Test SANS mémorisation ===");
 callCount = 0;
-const fibWithoutMemo = countCalls(fibonacci);
+type FibonacciFunction = (n: number) => number;
+const fibWithoutMemo: FibonacciFunction = countCalls(
+  (n: number): number => n <= 1 ? n : fibWithoutMemo(n - 1) + fibWithoutMemo(n - 2)
+);
 
-console.time("fibonacci(35) sans memo");
-const result1 = fibWithoutMemo(35);
-console.timeEnd("fibonacci(35) sans memo");
+console.time(`fibonacci(${FIBONACCI_NUMBER}) sans memo`);
+const result1 = fibWithoutMemo(FIBONACCI_NUMBER);
+console.timeEnd(`fibonacci(${FIBONACCI_NUMBER}) sans memo`);
 console.log(`Résultat : ${result1}`);
 console.log(`Nombre d'appels : ${callCount}\n`);
 
@@ -38,19 +42,24 @@ console.log(`Nombre d'appels : ${callCount}\n`);
 console.log("=== Test AVEC mémorisation ===");
 callCount = 0;
 
-// TODO : Décommentez une fois que vous avez implémenté memoize
-// const fibWithMemo = countCalls(memoize(fibonacci));
-//
-// console.time("fibonacci(35) avec memo");
-// const result2 = fibWithMemo(35);
-// console.timeEnd("fibonacci(35) avec memo");
+// // TODO : Décommentez une fois que vous avez implémenté memoize
+// const fibWithMemo: FibonacciFunction = memoize(
+//   countCalls(
+//     (n: number): number => n <= 1 ? n : fibWithMemo(n - 1) + fibWithMemo(n - 2)
+//   )
+// );
+
+// console.time(`fibonacci(${FIBONACCI_NUMBER}) avec memo`);
+// const result2 = fibWithMemo(FIBONACCI_NUMBER);
+// console.timeEnd(`fibonacci(${FIBONACCI_NUMBER}) avec memo`);
 // console.log(`Résultat : ${result2}`);
+// const callsAfterMemo = callCount; // Sauvegardez le nombre d'appels après le premier test
 // console.log(`Nombre d'appels : ${callCount}`);
-//
+
 // // Deuxième appel - devrait être instantané !
 // console.log("\nDeuxième appel avec les mêmes arguments...");
-// console.time("fibonacci(35) 2ème appel");
-// const result3 = fibWithMemo(35);
-// console.timeEnd("fibonacci(35) 2ème appel");
+// console.time(`fibonacci(${FIBONACCI_NUMBER}) 2ème appel`);
+// const result3 = fibWithMemo(FIBONACCI_NUMBER);
+// console.timeEnd(`fibonacci(${FIBONACCI_NUMBER}) 2ème appel`);
 // console.log(`Résultat : ${result3}`);
-// console.log(`Nombre d'appels additionnels : ${callCount - 36}`); // Devrait être 0 !
+// console.log(`Nombre d'appels additionnels : ${callCount - callsAfterMemo}`); // Devrait être 0 !

@@ -8,8 +8,8 @@
 
 // TODO : Initialisez votre client Redis
 //
-// import Redis from "ioredis";
-// export const redis = ...
+import Redis from "ioredis";
+export const redis = new Redis();
 
 // ============================================================================
 // SECTION 2 — FONCTION IS_ALLOWED (ÉTAPE 2)
@@ -32,13 +32,8 @@ export async function isAllowed(
   //
   // ALGORITHME :
   // 1. Incrémente un compteur Redis pour cette clé
-  // 2. Si c'est la première incrémentation (INCR retourne 1), appelle EXPIRE pour définir le TTL
-  // 3. Retourne true si le compteur ≤ max, sinon false
-  //
-  // INDICES :
-  // - redis.incr(key) → retourne la nouvelle valeur
-  // - redis.expire(key, windowSec) → définit le temps de vie
-  // - Si INCR retourne 1, c'est le premier appel dans cette fenêtre
+  // 2. Si c'est la première incrémentation (INCR retourne 1), on doit définir l'expiration (EXPIRE)
+  // 3. On vérifie si le compteur est inférieur ou égal à la limite (max) et on retourne true/false en conséquence
 
   throw new Error("TODO: implémentez la fonction isAllowed");
 }

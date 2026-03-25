@@ -13,7 +13,7 @@ type AnyFunction = (...args: any[]) => any;
 function memoize<F extends AnyFunction>(fn: F): (...args: Parameters<F>) => ReturnType<F> {
   // TODO : Implémentez cette fonction
   //
-  // Créez un objet (ou une Map) pour stocker les résultats
+  // Créez un objet (ou une Map()) pour stocker les résultats
 
   return (...args) => {
     // 1. Générez une clé unique à partir des arguments (JSON.stringify)
